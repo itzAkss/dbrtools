@@ -16,7 +16,7 @@ end
 local success, err = pcall(function()
 	if lobbycheck == nil or lobbycheck == true then
 		if game.PlaceId == lobbyPlaceID then
-			statergui:SetCore("SendNotification", {
+			startergui:SetCore("SendNotification", {
 				Title = "DBR Tools",
 				Text = "Loading lobby version...",
 				Duration = 3
@@ -25,7 +25,7 @@ local success, err = pcall(function()
 			script:Destroy()
 			return
 		elseif isPlaceAllowed() then
-			statergui:SetCore("SendNotification", {
+			startergui:SetCore("SendNotification", {
 				Title = "DBR Tools",
 				Text = "Loading main version...",
 				Duration = 3
@@ -34,7 +34,7 @@ local success, err = pcall(function()
 			script:Destroy()
 			return
 		else
-			statergui:SetCore("SendNotification", {
+			startergui:SetCore("SendNotification", {
 				Title = "DBR Tools",
 				Text = "Wrong game! PlaceID: " .. game.PlaceId,
 				Duration = 5
@@ -45,7 +45,7 @@ local success, err = pcall(function()
 
 	else
 		if not isPlaceAllowed() and game.PlaceId ~= lobbyPlaceID then
-			statergui:SetCore("SendNotification", {
+			startergui:SetCore("SendNotification", {
 				Title = "DBR Tools",
 				Text = "Wrong game! PlaceID: " .. game.PlaceId,
 				Duration = 5
@@ -54,7 +54,7 @@ local success, err = pcall(function()
 			return
 		end
 
-		statergui:SetCore("SendNotification", {
+		startergui:SetCore("SendNotification", {
 			Title = "DBR Tools",
 			Text = "Force loading main version...",
 			Duration = 3
@@ -66,7 +66,7 @@ local success, err = pcall(function()
 end)
 
 if not success then
-	statergui:SetCore("SendNotification", {
+	startergui:SetCore("SendNotification", {
 		Title = "DBR Tools",
 		Text = "Error: " .. tostring(err),
 		Duration = 6

@@ -2,7 +2,7 @@
 **Dead By Roblox** script v1.4I / v1.0L
 If you load it while in lobby, it will load Lobby version. Loading ingame will load the main script.
 <p align="left">
-  <img src="icon.jpg" width="150" alt="logo">
+  <img src="icon.png" width="150" alt="logo">
 </p>
 
 # Loadstring

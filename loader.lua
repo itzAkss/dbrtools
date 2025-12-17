@@ -1,77 +1,41 @@
-local GUIVersion = "1.4"
+local GUIVersion = "1.5"
+local lobbyPlaceID = 14904820737
+local gamePlaceID = 14904829680
+local currentPlaceID = game.PlaceId
 
-local allowedPlaceIDs = {14904829680} --dbr ingame ebatb
-local lobbyPlaceID = 14904820737 --dbr lobby ebatb
-local startergui = game:GetService("StarterGui")
+local function notify(text)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "DBR Tools",
+        Text = text,
+        Duration = 3
+    })
+end
 
-local function isPlaceAllowed()
-	for _, id in ipairs(allowedPlaceIDs) do
-		if game.PlaceId == id then
-			return true
-		end
-	end
-	return false
+local function loadScript(url)
+    loadstring(game:HttpGet(url))()
+    script:Destroy()
 end
 
 local success, err = pcall(function()
-	if lobbycheck == nil or lobbycheck == true then
-		if game.PlaceId == lobbyPlaceID then
-			startergui:SetCore("SendNotification", {
-				Title = "DBR Tools",
-				Text = "Loading lobby version...",
-				Duration = 3
-			})
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/itzAkss/dbrtools/refs/heads/main/lobby.lua"))()
-			script:Destroy()
-			return
-		elseif isPlaceAllowed() then
-			startergui:SetCore("SendNotification", {
-				Title = "DBR Tools",
-				Text = "Loading main version...",
-				Duration = 3
-			})
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/itzAkss/dbrtools/refs/heads/main/game.lua"))()
-			script:Destroy()
-			return
-		else
-			startergui:SetCore("SendNotification", {
-				Title = "DBR Tools",
-				Text = "Wrong game! PlaceID: " .. game.PlaceId,
-				Duration = 5
-			})
-			script:Destroy()
-			return
-		end
-
-	else
-		if not isPlaceAllowed() and game.PlaceId ~= lobbyPlaceID then
-			startergui:SetCore("SendNotification", {
-				Title = "DBR Tools",
-				Text = "Wrong game! PlaceID: " .. game.PlaceId,
-				Duration = 5
-			})
-			script:Destroy()
-			return
-		end
-
-		startergui:SetCore("SendNotification", {
-			Title = "DBR Tools",
-			Text = "Force loading main version...",
-			Duration = 3
-		})
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/itzAkss/dbrtools/refs/heads/main/game.lua"))()
-		script:Destroy()
-		return
-	end
+    if _G.lobbycheck ~= false then
+        if currentPlaceID == lobbyPlaceID then
+            notify("Loading lobby version...")
+            loadScript("https://raw.githubusercontent.com/itzAkss/dbrtools/main/lobby.lua")
+        elseif currentPlaceID == gamePlaceID then
+            notify("Loading main version...")
+            loadScript("https://raw.githubusercontent.com/itzAkss/dbrtools/main/game.lua")
+        else
+            notify("Wrong game! PlaceID: " .. currentPlaceID)
+            script:Destroy()
+        end
+    else
+        notify("Force loading main version...")
+        loadScript("https://raw.githubusercontent.com/itzAkss/dbrtools/main/game.lua")
+    end
 end)
 
 if not success then
-	startergui:SetCore("SendNotification", {
-		Title = "DBR Tools",
-		Text = "Error: " .. tostring(err),
-		Duration = 6
-	})
-	warn(err)
-	script:Destroy()
+    notify("Error: " .. tostring(err))
+    warn(err)
+    script:Destroy()
 end
---naxyu idi zaebalsa

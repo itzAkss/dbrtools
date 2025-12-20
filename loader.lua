@@ -16,17 +16,17 @@ local function loadScript(url)
     script:Destroy()
 end
 
-local queuesucc, queueerr = pcall(function()
-    local qot = queue_on_teleport or (syn and syn.queue_on_teleport)
-    if qot then
-        game:GetService("Players").LocalPlayer.OnTeleport:Connect(function()
-            qot('loadstring(game:HttpGet("https://raw.githubusercontent.com/itzAkss/dbrtools/refs/heads/main/loader.lua"))()')
-        end)
-    end
-end)
-if not queuesucc and queueerr then
-    warn("Error while setting up queuesetup: " .. tostring(queueerr))
-end
+-- local queuesucc, queueerr = pcall(function()
+--     local qot = queue_on_teleport or (syn and syn.queue_on_teleport)
+--     if qot then
+--         game:GetService("Players").LocalPlayer.OnTeleport:Connect(function()
+--             qot('loadstring(game:HttpGet("https://raw.githubusercontent.com/itzAkss/dbrtools/refs/heads/main/loader.lua"))()')
+--         end)
+--     end
+-- end)
+-- if not queuesucc and queueerr then
+--     warn("Error while setting up queuesetup: " .. tostring(queueerr))
+-- end
 
 local success, err = pcall(function()
     if _G.lobbycheck ~= false then

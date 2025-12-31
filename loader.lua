@@ -1,3 +1,9 @@
+if _G.DBRToolsLoaded then
+    warn("Anti Dublication")
+    return
+end
+_G.DBRToolsLoaded = true
+
 local GUIVersion = "1.5"
 local lobbyPlaceID = 14904820737
 local gamePlaceID = 14904829680
@@ -12,21 +18,15 @@ local function notify(text)
 end
 
 local function loadScript(url)
-    loadstring(game:HttpGet(url))()
-    script:Destroy()
+    local success, scriptContent = pcall(game.HttpGet, game, url)
+    if success then
+        loadstring(scriptContent)()
+    else
+        _G.DBRToolsLoaded = nil
+        notify("error")
+    end
+    if script then script:Destroy() end
 end
-
--- local queuesucc, queueerr = pcall(function()
---     local qot = queue_on_teleport or (syn and syn.queue_on_teleport)
---     if qot then
---         game:GetService("Players").LocalPlayer.OnTeleport:Connect(function()
---             qot('loadstring(game:HttpGet("https://raw.githubusercontent.com/itzAkss/dbrtools/refs/heads/main/loader.lua"))()')
---         end)
---     end
--- end)
--- if not queuesucc and queueerr then
---     warn("Error while setting up queuesetup: " .. tostring(queueerr))
--- end
 
 local success, err = pcall(function()
     if _G.lobbycheck ~= false then
@@ -38,10 +38,11 @@ local success, err = pcall(function()
             loadScript("https://raw.githubusercontent.com/itzAkss/dbrtools/main/game.lua")
         else
             notify("Wrong game! PlaceID: " .. currentPlaceID)
-            script:Destroy()
+            _G.DBRToolsLoaded = nil
+            if script then script:Destroy() end
         end
     else
-        notify("Force loading main version...")
+        notify("Force loading main version... (Not working actually)")
         loadScript("https://raw.githubusercontent.com/itzAkss/dbrtools/main/game.lua")
     end
 end)
@@ -49,5 +50,6 @@ end)
 if not success then
     notify("Error: " .. tostring(err))
     warn(err)
-    script:Destroy()
+    _G.DBRToolsLoaded = nil
+    if script then script:Destroy() end
 end
